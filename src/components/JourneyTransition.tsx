@@ -122,8 +122,10 @@ const JourneyTransition: React.FC<JourneyTransitionProps> = ({ onComplete }) => 
                             value: { min: 0.3, max: 1 },
                             animation: {
                                 enable: true,
-                                speed: 3,
-                                sync: false
+                                speed: 2, // 5 flashes over 5 seconds = 1 flash per second
+                                sync: true, // Sync for coordinated flashing effect
+                                count: 5, // Flash exactly 5 times
+                                startValue: "max"
                             }
                         },
                         shape: { type: "circle" },
@@ -138,7 +140,7 @@ const JourneyTransition: React.FC<JourneyTransitionProps> = ({ onComplete }) => 
                         life: {
                             duration: {
                                 sync: false,
-                                value: 2
+                                value: 10 // Increased to 10 seconds to ensure particles don't disappear during 5-second journey
                             },
                             count: 0,
                         },
