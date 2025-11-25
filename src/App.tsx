@@ -1,24 +1,39 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import { AnimatePresence } from 'framer-motion';
 import './App.css';
+import StarBackground from './components/StarBackground';
+import LandingPage from './components/LandingPage';
+import JourneyTransition from './components/JourneyTransition';
+import PwnedPage from './components/PwnedPage';
 
 function App() {
+  const [stage, setStage] = useState<'landing' | 'journey' | 'pwned'>('landing');
+
+  const startJourney = () => {
+    setStage('journey');
+  };
+
+  const finishJourney = () => {
+    setStage('pwned');
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {stage !== 'pwned' && <StarBackground />}
+
+      <AnimatePresence mode="wait">
+        {stage === 'landing' && (
+          <LandingPage key="landing" onStart={startJourney} />
+        )}
+
+        {stage === 'journey' && (
+          <JourneyTransition key="journey" onComplete={finishJourney} />
+        )}
+
+        {stage === 'pwned' && (
+          <PwnedPage key="pwned" />
+        )}
+      </AnimatePresence>
     </div>
   );
 }
